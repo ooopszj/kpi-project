@@ -8,9 +8,12 @@ import matplotlib.pyplot as plt
 
 app = Flask(__name__)
 
-@app.route("/hello")
+
+
+@app.route("/")
 def pic():
 	return render_template('hello.html')
+
 
 @app.route("/hello")
 def ppchart():
@@ -19,13 +22,14 @@ def ppchart():
 	pp1 = pp.drop_duplicates(subset = 'Month', keep = 'last')
 	pp_plot = pp1.plot(kind="bar",x=["Month"],y = ['Planning Performance'],legend=None)
 	fig = pp_plot.get_figure()
-	fig.savefig("/users/ooops35/desktop/project/static/h.png")
+	fig.savefig("/users/ooops35/desktop/project/static/planningperformace.png")
 	return render_template('hello.html')
+ 
 
 
-@app.route("/")
+@app.route("/hello")
 def hello():
-    df = pd.read_csv('Copy of Super Template KPI.csv',sep=",", usecols= [5,8,9, 15,16,22,23,28, 29,30,31,32])
+    df = pd.read_csv('Copy of Super Template KPI.csv',sep=",", usecols= [5,8,9,15,16,22,23,28, 29,30,31,32])
     df1 = df.tail(4)
     return render_template('hello.html', df = df1.to_html(index = False))
 
@@ -37,7 +41,16 @@ def pachart():
 	fig = pp_plot.get_figure()
 	fig.savefig("/users/ooops35/desktop/project/static/planVSactual.png")
 	return render_template('hello.html')
-
+	
+@app.route("/hello")
+def OTD():
+	plt.style.use('ggplot')
+	pa = pd.read_csv('Copy of Super Template KPI.csv')
+	pp_plot = pa.plot(kind="line",x=["Month"],y = ['On Time Despatch from MMW, %'],legend=None)
+	fig = pp_plot.get_figure()
+	fig.savefig("/users/ooops35/desktop/project/static/OTD.png")
+	return render_template('hello.html')
+	
 @app.route("/hello")
 def TOFontime():
 	#plt.style.use('ggplot')
@@ -50,6 +63,7 @@ def TOFontime():
 	dff = dff.T
 	dff = dff.drop(dff.index[[1]])
 	return render_template('hello.html')
+
 
 
 
